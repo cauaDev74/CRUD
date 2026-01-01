@@ -162,7 +162,9 @@ int main(){
         printf("\nMenu\n");
         printf("1. Aicionar Pessoa\n");
         printf("2. Listar Pessoa\n");
-        printf("3. Sair\n");
+        printf("3. Editar Pessoa.\n");
+        printf("4. Remover Pessoa.\n");
+        printf("5. Sair\n");
         printf("\nEscolha uma option (1-3): ");
 
         if(scanf("%d", &escolha) != 1){
@@ -180,6 +182,11 @@ int main(){
                 listarPessoa(pessoas, contaPessoas);
                 break;
             case 3:
+                editarPessoa(pessoas, contaPessoas);
+                break;
+            case 4:
+                removerPessoa(pessoas, contaPessoas);
+            case 5:
                 salvarPessoas(pessoas, contaPessoas);
                 printf("Saindo do programa. Ate logo!\n");
                 return 0;
