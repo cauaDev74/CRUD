@@ -1,17 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#define NAME_LEN 50
-#define MAX_PESSOA 10
-
-
-typedef struct pessoa{
-    char nome[NAME_LEN];
-    int idade;
-} Pessoa;
+#include "structs.h"
 
 void clearInputBuffer() {
+    //Limpa caracteres restantes no buffer de entrada
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
@@ -119,7 +112,7 @@ void removerPessoa(Pessoa pessoas[], int *contaPessoas){
 }
 
 void salvarPessoas(Pessoa pessoas[], int contaPessoas){
-    FILE *file = fopen("pessoas.dat", "wb");
+    FILE *file = fopen("data/pessoas.dat", "wb");
 
     if(file == NULL){
         printf("Erro ao abrir o arquivo para escrita.\n");
@@ -137,7 +130,7 @@ void salvarPessoas(Pessoa pessoas[], int contaPessoas){
 }
 
 void carregarPessoas(Pessoa pessoas[], int *contaPessoas){
-    FILE *file = fopen("pessoas.dat", "rb");
+    FILE *file = fopen("data/pessoas.dat", "rb");
 
     if(file == NULL){
         //Arquivo não existe ainda -> primeira execução
@@ -149,50 +142,4 @@ void carregarPessoas(Pessoa pessoas[], int *contaPessoas){
     fread(pessoas, sizeof(Pessoa), *contaPessoas, file);
 
     fclose(file);
-}
-
-
-int main(){
-    Pessoa pessoas[MAX_PESSOA];
-    int contaPessoas = 0;
-    int escolha;
-
-    carregarPessoas(pessoas, &contaPessoas);
-    while(1){
-        printf("\nMenu\n");
-        printf("1. Aicionar Pessoa\n");
-        printf("2. Listar Pessoa\n");
-        printf("3. Editar Pessoa.\n");
-        printf("4. Remover Pessoa.\n");
-        printf("5. Sair\n");
-        printf("\nEscolha uma option (1-3): ");
-
-        if(scanf("%d", &escolha) != 1){
-            printf("Entrada invalid.\n");
-            clearInputBuffer();
-            continue;
-        }
-        clearInputBuffer();
-
-        switch(escolha){
-            case 1:
-                addPessoa(pessoas, &contaPessoas);
-                break;
-            case 2:
-                listarPessoa(pessoas, contaPessoas);
-                break;
-            case 3:
-                editarPessoa(pessoas, contaPessoas);
-                break;
-            case 4:
-                removerPessoa(pessoas, contaPessoas);
-            case 5:
-                salvarPessoas(pessoas, contaPessoas);
-                printf("Saindo do programa. Ate logo!\n");
-                return 0;
-            default:
-                printf("Escolha invalida burro.\n");
-        }
-    }
-    return 0;
 }
